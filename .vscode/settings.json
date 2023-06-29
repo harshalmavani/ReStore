@@ -1,0 +1,6 @@
+{
+  "[dockercompose]": {
+    "editor.autoIndent": "full"
+  },
+  "editor.foldingStrategy": "indentation"
+}
