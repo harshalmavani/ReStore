@@ -1,8 +1,10 @@
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
 export default function ProductDetails() {
 	const { id } = useParams<{ id: string }>();
@@ -10,25 +12,25 @@ export default function ProductDetails() {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		axios.get(`http://localhost:5000/api/products/${id}`)
-			.then(response => setProduct(response.data))
-			.catch(err => console.log(err))
+		id && agent.Catalog.details(parseInt(id))
+			.then(response => setProduct(response))
+			.catch(error => console.log(error))
 			.finally(() => setLoading(false))
 	}, [id])
 
-	if (loading) return <h3>Loading...</h3>
+	if (loading) return <LoadingComponent message="loading product..."/>
 
-	if (!product) return <h3>Product not found</h3>
+	if (!product) return <NotFound/>
 
 	return (
 		<Grid container spacing={6}>
 			<Grid item xs={6}>
-				<img src={product.pictureUrl} alt={product.name} style={{width: '100%'}}/>
+				<img src={product.pictureUrl} alt={product.name} style={{ width: '100%' }} />
 			</Grid>
 			<Grid item xs={6}>
 				<Typography variant="h3" >{product.name}</Typography>
-				<Divider sx={{mb: 2}}/>
-				<Typography variant="h4" color='secondary' >${(product.price/100).toFixed(2)}</Typography>
+				<Divider sx={{ mb: 2 }} />
+				<Typography variant="h4" color='secondary' >${(product.price / 100).toFixed(2)}</Typography>
 				<TableContainer>
 					<Table>
 						<TableBody>
