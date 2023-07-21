@@ -10,6 +10,7 @@ COPY . ./
 
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
+RUN dotnet ef database update
 
 RUN dotnet publish -c Release -o build
 
@@ -26,6 +27,6 @@ WORKDIR /app
 FROM base AS final
 # Copy the build output from the build image
 COPY --from=build-env /app/build .
-RUN dotnet ef database update
+COPY --from=build-env /app/store.db .
 # Set the entrypoint command to run the application
 ENTRYPOINT ["dotnet", "API.dll"]
