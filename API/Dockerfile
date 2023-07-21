@@ -7,9 +7,7 @@ COPY *.csproj ./
 RUN dotnet restore
 # Copy the rest of the source code and build the project
 COPY . ./
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="$PATH:/root/.dotnet/tools"
-RUN dotnet ef database update
+ENV CONNECTION_STRING=Default
 RUN dotnet publish -c Release -o build
 
 # Use the official ASP.NET Core runtime image as the base image
