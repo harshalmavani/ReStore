@@ -14,7 +14,16 @@ builder.Services.AddDbContext<StoreContext>(options =>
 {
 	options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+	{
+		options.AddPolicy("CorsPolicy",
+			builder => builder
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+				.SetIsOriginAllowed(origin => true)
+				.AllowCredentials());
+	});
+
 
 var app = builder.Build();
 
@@ -27,10 +36,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseCors(options =>
-{
-	options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
-});
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
