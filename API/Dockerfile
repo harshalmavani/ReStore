@@ -8,6 +8,10 @@ RUN dotnet restore
 # Copy the rest of the source code and build the project
 COPY . ./
 
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+RUN dotnet ef database update
+
 RUN dotnet publish -c Release -o build
 
 
@@ -23,10 +27,6 @@ WORKDIR /app
 FROM base AS final
 # Copy the build output from the build image
 COPY --from=build-env /app/build .
-
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="$PATH:/root/.dotnet/tools"
-RUN dotnet ef database update
-
+RUN echo $(ls -1 /tmp/dir)
 # Set the entrypoint command to run the application
 ENTRYPOINT ["dotnet", "API.dll"]
