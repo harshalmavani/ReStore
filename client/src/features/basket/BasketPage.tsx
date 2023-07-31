@@ -42,7 +42,11 @@ export default function BasketPage() {
 								<TableCell align="center">
 									<LoadingButton
 										loading={status === 'pendingRemoveItem' + item.productId + 'rem'}
-										onClick={() => dispatch(removeBasketItemAsync({ productId: item.productId, quantity: 1, name: 'rem' }))}
+										onClick={() => dispatch(removeBasketItemAsync({ 
+											productId: item.productId, 
+											quantity: 1, 
+											name: 'rem' 
+										}))}
 										color="error">
 										<Remove />
 									</LoadingButton>

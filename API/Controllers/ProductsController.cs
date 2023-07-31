@@ -23,7 +23,7 @@ namespace API.Controllers
         [Route("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id){
             var product = await _storeContext.Products.FindAsync(id);
-			if(product is null) return NotFound();
+			if(product is null) return BadRequest(new ProblemDetails{Title = "Product not found"});
 			return product;
         }
     }
