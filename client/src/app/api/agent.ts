@@ -40,7 +40,6 @@ axios.interceptors.response.use(async response => {
 			break;
 		default:
 			break;
-
 	}
 	return Promise.reject(error.response);
 })
@@ -55,6 +54,7 @@ const requests = {
 const Catalog = {
 	list: () => requests.get('products'),
 	details: (id: number) => requests.get(`products/${id}`),
+	filters: () => requests.get('products/filters'),
 };
 
 const TestErros = {
@@ -74,7 +74,7 @@ const Basket = {
 const agent = {
 	Catalog,
 	TestErros,
-	Basket
+	Basket,
 }
 
 export default agent;

@@ -7,11 +7,11 @@ const productsAdapter = createEntityAdapter<Product>();
 
 export const fetchProductsAsync = createAsyncThunk<Product[]>(
 	'catalog/fetchProductsAsync',
-	async (_,thunkAPI) => {
+	async (_, thunkAPI) => {
 		try {
 			return await agent.Catalog.list();
 		} catch (error: any) {
-			return thunkAPI.rejectWithValue({error: error.data});
+			return thunkAPI.rejectWithValue({ error: error.data });
 		}
 	}
 )
@@ -22,7 +22,18 @@ export const fetchProductAsync = createAsyncThunk<Product, number>(
 		try {
 			return await agent.Catalog.details(productId);
 		} catch (error: any) {
-			return thunkAPI.rejectWithValue({error: error.data});
+			return thunkAPI.rejectWithValue({ error: error.data });
+		}
+	}
+)
+
+export const fetchFiltersAsync = createAsyncThunk(
+	'catalog/fetchFiltersAsync',
+	async (_, thunkAPI) => {
+		try {
+			return await agent.Catalog.filters();
+		} catch (error: any) {
+			return thunkAPI.rejectWithValue({ error: error.data });
 		}
 	}
 )
@@ -30,8 +41,11 @@ export const fetchProductAsync = createAsyncThunk<Product, number>(
 export const catalogSlice = createSlice({
 	name: 'catalog',
 	initialState: productsAdapter.getInitialState({
+		filtersLoaded: false,
 		productsLoaded: false,
-		status: 'idle'
+		status: 'idle',
+		brands: [],
+		types: []
 	}),
 	reducers: {},
 	extraReducers: (builder) => {
@@ -56,6 +70,20 @@ export const catalogSlice = createSlice({
 			state.status = 'idle';
 		});
 		builder.addCase(fetchProductAsync.rejected, (state, action) => {
+			console.log(action.payload)
+			state.status = 'idle';
+		});
+
+		builder.addCase(fetchFiltersAsync.pending, (state) => {
+			state.status = 'pendingFetchfilters';
+		});
+		builder.addCase(fetchFiltersAsync.fulfilled, (state, action) => {
+			state.filtersLoaded = true;
+			state.brands = action.payload.brands;
+			state.types = action.payload.types;
+			state.status = 'idle';
+		});
+		builder.addCase(fetchFiltersAsync.rejected, (state, action) => {
 			console.log(action.payload)
 			state.status = 'idle';
 		});
