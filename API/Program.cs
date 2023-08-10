@@ -11,8 +11,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(options =>
 {
-	String connString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-	options.UseMySql(connString, ServerVersion.AutoDetect(connString));
+	// String connString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+	String connString = builder.Configuration.GetConnectionString("DefaultConnection");
+	// options.UseMySql(connString, ServerVersion.AutoDetect(connString));
+	options.UseSqlite(connString);
 });
 builder.Services.AddCors(options =>
 	{
@@ -20,8 +22,8 @@ builder.Services.AddCors(options =>
 			builder => builder
 				.AllowAnyMethod()
 				.AllowAnyHeader()
-				.SetIsOriginAllowed(origin => true)
-				.AllowCredentials());
+				.AllowCredentials()
+				.WithOrigins("http://localhost:3000"));
 	});
 
 

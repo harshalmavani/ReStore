@@ -10,25 +10,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20230721214628_initialMigration")]
+    [Migration("20230725043154_initialMigration")]
     partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
 
             modelBuilder.Entity("API.Entities.Basket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("BuyerId")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -39,16 +37,16 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("BasketId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -63,28 +61,28 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Brand")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PictureUrl")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("Price")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("QuantityInStock")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Type")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

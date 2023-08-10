@@ -1,8 +1,7 @@
 import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function ServerError() {
-	const navigate = useNavigate();
 	const { state } = useLocation();
 
 	return (
@@ -20,7 +19,7 @@ export default function ServerError() {
 			) : (
 				<Typography gutterBottom variant="h5">Server error</Typography>
 			)}
-			<Button onClick={() => navigate('/catalog')}>Go back to the Store</Button>
+			<Button fullWidth component={Link} to='/catalog'>Go back to the Store</Button>
 		</Container>
 	)
 }
