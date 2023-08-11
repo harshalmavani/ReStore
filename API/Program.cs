@@ -1,10 +1,12 @@
 using API.Data;
 using API.Entities;
 using API.Middleware;
+using API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -26,11 +28,15 @@ builder.Services.AddCors(options =>
 				.AllowCredentials()
 				.WithOrigins("http://localhost:3000"));
 	});
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<User>(option =>
+{
+	option.User.RequireUniqueEmail = true;
+})
 	.AddRoles<IdentityRole>()
 	.AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
