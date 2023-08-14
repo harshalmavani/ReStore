@@ -16,7 +16,7 @@ const midLinks = [
 
 const rightLinks = [
 	{ title: "login", path: "/login" },
-	{ title: "regitster", path: "/regitster" },
+	{ title: "regitster", path: "/register" },
 ];
 
 const navStyles = {
