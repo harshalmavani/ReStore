@@ -3,12 +3,12 @@ import agent from "../../app/api/agent";
 import { useState } from "react";
 
 export default function AboutPage() {
-	const [validationErros, setValidationErros] = useState<string[]>([]);
+	const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
 	function getValidationError() {
 		agent.TestErros.getValidationError()
 			.then(() => console.log('should not see this'))
-			.catch(error => setValidationErros(error));
+			.catch(error => setValidationErrors(error));
 	}
 	return (
 		<Container>
@@ -37,11 +37,11 @@ export default function AboutPage() {
 					Test Validation Error
 				</Button>
 			</ButtonGroup>
-			{validationErros.length > 0 &&
+			{validationErrors.length > 0 &&
 				<Alert severity="error">
 					<AlertTitle>Validation Errors</AlertTitle>
 					<List>
-						{validationErros.map(error => (
+						{validationErrors.map(error => (
 							<ListItem key={error}>
 								<ListItemText>
 									{error}
