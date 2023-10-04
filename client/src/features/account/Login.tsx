@@ -20,8 +20,12 @@ export default function Login() {
 	});
 
 	async function formSubmit(data: FieldValues) {
-		await dispatch(signInUserAsync(data));
-		navigate('/catalog');
+		try {
+			await dispatch(signInUserAsync(data));
+			navigate('/catalog');
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	return (
